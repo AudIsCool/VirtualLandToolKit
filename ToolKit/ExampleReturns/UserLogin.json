@@ -1,0 +1,54 @@
+{
+    "user": {
+        "id": 719,
+        "futureland_user": "aud__",
+        "email": "TopSecretEmail",
+        "plan": null,
+        "support_pack": null,
+        "avatar_link": "https://cdn.futureland.tv/app/aud__/Profile/FUnaoMBTQMRNmAZCUSfLy.png",
+        "original_avatar_link": "https://cdn.futureland.tv/app/aud__/Profile/FUnaoMBTQMRNmAZCUSfLy.png",
+        "slack_user_id": null,
+        "date": "2020-04-18",
+        "anonymous": false,
+        "twitterUsername": null,
+        "lastVideoUpdate": null,
+        "registrationType": "email",
+        "timezone": "America/God",
+        "createdAt": "2020-04-18T18:59:02.413Z",
+        "updatedAt": "2020-04-18T20:28:18.368Z",
+        "projects": [
+            {
+                "id": 809,
+                "output_number": 4,
+                "title": "The hunt for Valorant API Access",
+                "cycle": null,
+                "description": "(Start at the bottom) \nAs the valorant esport scene begins to explode, it's important that its staff has accessible stats for their teams.",
+                "cover": null,
+                "slug": "the-hunt-for-valorant-api-access",
+                "link": null,
+                "last_output_at": "2020-04-18T22:42:30.372Z",
+                "private": false,
+                "open": true,
+                "marathon": null,
+                "videoConferenceParticipants": null,
+                "lastVideoConferenceAt": null,
+                "createdAt": "2020-04-18T19:03:10.612Z",
+                "updatedAt": "2020-04-18T21:26:46.031Z",
+                "deletedAt": null,
+                "user_id": 719,
+                "UserId": 719,
+                "ProjectUser": {
+                    "userId": 719,
+                    "projectId": 809,
+                    "log": true,
+                    "createdAt": "2020-04-18T19:03:10.630Z",
+                    "updatedAt": "2020-04-18T20:11:12.992Z",
+                    "project_id": 809,
+                    "user_id": 719
+                }
+            },
+            ... Tons of projects later
+        ]
+    },
+    "token": "Secret Token we're gonn ause later"
+}
