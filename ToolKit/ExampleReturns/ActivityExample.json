@@ -1,0 +1,22 @@
+{
+    "key": "output-14471",
+    "date": "2020-04-19T21:26:02.600Z",
+    "type": "output-created",
+    "output": {
+        "id": 14471,
+        "utc": "2020-04-19T21:26:02.600Z",
+        "number": 3,
+        "notes": "# Now what you say?\nWell we write our own custom login!! With python of course!!\n\nIf we look back at our devtools we'll see that when Future...",
+        "user": {
+            "id": 719,
+            "futureland_user": "aud__",
+            "createdAt": "2020-04-18T18:59:02.413Z"
+        },
+        "project": {
+            "id": 813,
+            "slug": "the-hunt-for-futureland-api-access",
+            "title": "The hunt for Futureland API Access",
+            "createdAt": "2020-04-19T18:01:13.143Z"
+        }
+    }
+}

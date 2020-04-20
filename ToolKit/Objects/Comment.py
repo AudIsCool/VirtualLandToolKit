@@ -7,32 +7,35 @@
 
 
 +---------------------------------------------------------------------+
-|                           OBJECT -> User                            |
+|                        OBJECT -> Comment                            |
 +---------------------------------------------------------------------+
-|  This Object takes in the User json object gotten from Futureland   |
-|  and convert it to a python object for usage later. It's also       |
-|  easier to work with since we can just do OBJ.ATTRIBUTE instead of  | 
-|  OBJ["ATTRIBUTE"]                                                   |
+|  This Object takes in the Comment json object gotten from           |
+|  Futureland and convert it to a python object for usage later.      |
+|  It's also easier to work with since we can just do OBJ.ATTRIBUTE   |
+|  instead of OBJ["ATTRIBUTE"]                                        |
 +---------------------------------------------------------------------+
 """
-
 #System imports
 import json
 
+#Import our self madeobjects
+import ToolKit.Objects as FLObjects
 
-class User:
+class Comment:
     #Take in the object and convert it to what we need
-    def __init__(self, FLUserJSON):
-        #Check if we even got a user id
+    def __init__(self, FLCommentJSON):
+        #Check if we even got the right data 
         try:
             #Setup our data
-            self.Id               = FLUserJSON["id"]
-            self.Username         = FLUserJSON["futureland_user"]
-            self.CreatedAt        = FLUserJSON["createdAt"]
+            self.Id        = FLCommentJSON["id"]
+            self.Text      = FLCommentJSON["value"]
+            self.CreatedAt = FLCommentJSON["createdAt"]
+            self.User      = FLObjects.User(FLCommentJSON["user"])
+            self.OutputId  = FLCommentJSON["output"]["id"] #We're not doing the whole object because the comment doesn't conatin the note, and calling our object would be suicide without the note
 
         #If we didn't get one of these the JSON is bad and toss error
         except:
-            raise ValueError("JSON given was incorrectly formatted and we couldn't build a User Object out of it")
+            raise ValueError("JSON given was incorrectly formatted and we couldn't build a Project Object out of it")
         
 
 
@@ -47,9 +50,11 @@ class User:
         #Rebuild the object so we can use JSON pretty print
         Object = {
             #Attributes
-            "Id":               self.Id,
-            "Username":         self.Username,
-            "CreatedAt":        self.CreatedAt,
+            "Id"        : self.Id,
+            "Text"      : self.Text,
+            "CreatedAt" : self.CreatedAt,
+            "Author"    : self.Author,
+            "Output"    : self.Output,
 
             #Functions
             "toJSON()" :  "Function, takes in nothing, returns JSON of object" 

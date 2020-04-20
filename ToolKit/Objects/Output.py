@@ -7,32 +7,38 @@
 
 
 +---------------------------------------------------------------------+
-|                           OBJECT -> User                            |
+|                        OBJECT -> Output                             |
 +---------------------------------------------------------------------+
-|  This Object takes in the User json object gotten from Futureland   |
-|  and convert it to a python object for usage later. It's also       |
-|  easier to work with since we can just do OBJ.ATTRIBUTE instead of  | 
-|  OBJ["ATTRIBUTE"]                                                   |
+|  This Object takes in the Output  json object gotten from           |
+|  Futureland and convert it to a python object for usage later.      |
+|  It's also easier to work with since we can just do OBJ.ATTRIBUTE   |
+|  instead of OBJ["ATTRIBUTE"]                                        |
 +---------------------------------------------------------------------+
 """
-
 #System imports
 import json
 
+#My imports
+import ToolKit.Objects as FLObjects
 
-class User:
+
+
+class Output:
     #Take in the object and convert it to what we need
-    def __init__(self, FLUserJSON):
-        #Check if we even got a user id
+    def __init__(self, FLOutputJSON):
+        #Check if we even got the right data
         try:
             #Setup our data
-            self.Id               = FLUserJSON["id"]
-            self.Username         = FLUserJSON["futureland_user"]
-            self.CreatedAt        = FLUserJSON["createdAt"]
+            self.Id      = FLOutputJSON["id"]
+            self.Dat     = FLOutputJSON["utc"]
+            self.Number  = FLOutputJSON["number"]
+            self.Notes   = FLOutputJSON["notes"]
+            self.User    = FLObjects.User(FLOutputJSON["user"])
+            self.Project = FLObjects.Project(FLOutputJSON["project"])
 
         #If we didn't get one of these the JSON is bad and toss error
         except:
-            raise ValueError("JSON given was incorrectly formatted and we couldn't build a User Object out of it")
+            raise ValueError("JSON given was incorrectly formatted and we couldn't build a Output Object out of it")
         
 
 
@@ -47,9 +53,7 @@ class User:
         #Rebuild the object so we can use JSON pretty print
         Object = {
             #Attributes
-            "Id":               self.Id,
-            "Username":         self.Username,
-            "CreatedAt":        self.CreatedAt,
+            "" : "",
 
             #Functions
             "toJSON()" :  "Function, takes in nothing, returns JSON of object" 

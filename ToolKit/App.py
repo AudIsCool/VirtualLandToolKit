@@ -1,8 +1,9 @@
 #System imports
 import os
-import json
+import json 
+import asyncio
 import requests
-import platform 
+import platform
 from datetime import datetime
 
 #Import our self madeobjects
@@ -41,10 +42,12 @@ class VLToolKit:
     #Constructor
     def __init__(self, *args, **kwargs):
         #Setup internal config
-        self.LogMessages = kwargs.get("Log") #If the user wants logging set it to true
-        self.Token       = None
-        self.User        = None
-
+        self.LogMessages    = kwargs.get("Log") #If the user wants logging set it to true
+        self.LoopDelay      = 10   #In seconds
+        self.Token          = None
+        self.User           = None
+        self.LatestActivity = None
+        
         #Init Logging
         self.InitLogging()
 
@@ -131,12 +134,57 @@ class VLToolKit:
             self.Log("Login", "Login was good, building user object and returning...")
 
             #Create a user
-            User = FLObjects.User(LoginObject["user"])
+            User = FLObjects.Me(LoginObject["user"])
 
             #Return that and the function
             return (User, LoginObject["token"])
 
 
+    """
+        Start()
+            Starts the toolkit's main loop
+    """
+    def Start(self):
+        asyncio.run(self.Loop())
+
+
+    """
+        FetchActivities
+            Fetches all activities in futureland
+    """
+    async def FetchActivities(self):
+        #Get the data
+        Data = requests.get("https://futureland.tv/api/activity")
+
+        ActivityList = []
+
+        for Activities in Data.json():
+            ActivityList.append(FLObjects.Activity(Activities))
+
+        return ActivityList
+
+
+    """
+    +---------------------------------------------------------------------+
+    |                        == Event  Functions==                        |
+    +---------------------------------------------------------------------+
+    |   These functions are fired by the internal looping system          |
+    |   But you can over write them to do your own thin                   |
+    +---------------------------------------------------------------------+
+    """
+
+    
+    """
+        OnNewActivity(ToolKit.Objetcs.Activty)
+            Is fired when the toolkit sees a new activty
+    """
+    async def OnNewAcvitity(self, Activity):
+        if(Activity.Type == "user"):
+            self.Log("OnNewAcvitity", "New {} posted with the ID {} from user {}".format(Activity.Type, Activity.Id, Activity.Data.Username))
+            return
+
+        else:
+            self.Log("OnNewAcvitity", "New {} posted with the ID {} from user {}".format(Activity.Type, Activity.Id, Activity.Data.User.Username))
 
 
     """
@@ -147,6 +195,50 @@ class VLToolKit:
     |    We use them internally though soooooo....                        |
     +---------------------------------------------------------------------+
     """
+
+    """
+        Loop()
+            The tool kit's main loop, looks for activties and displays new ones
+    """
+    async def Loop(self):
+        while True:
+            ActitivtyCheck = await self.CheckForNewActivties()
+
+            if(ActitivtyCheck != False):
+                await self.OnNewAcvitity(ActitivtyCheck)
+
+            await asyncio.sleep(self.LoopDelay)
+        
+
+    """
+        CheckForActivities()
+            Called by Loop, returns the latest activty if there's a new one
+            Returns false if there's nothing
+    """
+    async def CheckForNewActivties(self):
+        #Fetch latest activity
+        Activity = await self.FetchLatestActivity()
+        
+        #If there's a new activity save it then return it
+        if Activity.Id != self.LatestActivity:
+            self.LatestActivity = Activity.Id
+            return Activity
+
+        #If there isn't, return false and carry on
+        else:
+            return False
+
+
+
+    """
+        FetchLatestActivity
+            Fetches newest actvity 
+    """
+    async def FetchLatestActivity(self):
+        #There's no better way to do this atm, I can only fetch ALL activities
+        Activities = await self.FetchActivities()
+        return Activities[0]
+        
 
     """
         InitLogging()

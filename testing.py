@@ -15,5 +15,4 @@ OurToolkit = ToolKit.VLToolKit(
     Log = True #Just some cool logs
 )
 
-print("Test print of user")
-print(OurToolkit.User)
+OurToolkit.Start()
