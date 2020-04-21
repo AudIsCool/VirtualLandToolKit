@@ -53,8 +53,8 @@ class Comment:
             "Id"        : self.Id,
             "Text"      : self.Text,
             "CreatedAt" : self.CreatedAt,
-            "Author"    : self.Author,
-            "Output"    : self.Output,
+            "User"      : self.User.toJSON(),
+            "Output"    : self.OutputId,
 
             #Functions
             "toJSON()" :  "Function, takes in nothing, returns JSON of object" 
